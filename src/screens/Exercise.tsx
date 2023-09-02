@@ -1,5 +1,14 @@
 import { TouchableOpacity } from 'react-native';
-import { HStack, Heading, Icon, Text, VStack, Image, Box } from 'native-base';
+import {
+  HStack,
+  Heading,
+  Icon,
+  Text,
+  VStack,
+  Image,
+  Box,
+  ScrollView,
+} from 'native-base';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
@@ -43,43 +52,45 @@ export function Exercise() {
         </HStack>
       </VStack>
 
-      <VStack p={8}>
-        <Image
-          w="full"
-          h={80}
-          source={{
-            uri: 'https://www.origym.com.br/banners/remada-unilateral-3.jpg',
-          }}
-          alt="Nome do exercício"
-          mb={3}
-          resizeMode="cover"
-          rounded="lg"
-        />
+      <ScrollView>
+        <VStack p={8}>
+          <Image
+            w="full"
+            h={80}
+            source={{
+              uri: 'https://www.origym.com.br/banners/remada-unilateral-3.jpg',
+            }}
+            alt="Nome do exercício"
+            mb={3}
+            resizeMode="cover"
+            rounded="lg"
+          />
 
-        <Box bg="gray.600" rounded="md" pb={4} px={4}>
-          <HStack
-            alignItems="center"
-            justifyContent="space-around"
-            mb={6}
-            mt={5}
-          >
-            <HStack>
-              <SeriesSvg />
-              <Text color="gray.200" ml="2">
-                3 séries
-              </Text>
-            </HStack>
+          <Box bg="gray.600" rounded="md" pb={4} px={4}>
+            <HStack
+              alignItems="center"
+              justifyContent="space-around"
+              mb={6}
+              mt={5}
+            >
+              <HStack>
+                <SeriesSvg />
+                <Text color="gray.200" ml="2">
+                  3 séries
+                </Text>
+              </HStack>
 
-            <HStack>
-              <RepetitionsSvg />
-              <Text color="gray.200" ml="2">
-                12 repetições
-              </Text>
+              <HStack>
+                <RepetitionsSvg />
+                <Text color="gray.200" ml="2">
+                  12 repetições
+                </Text>
+              </HStack>
             </HStack>
-          </HStack>
-          <Button title="Marcar como realizado" />
-        </Box>
-      </VStack>
+            <Button title="Marcar como realizado" />
+          </Box>
+        </VStack>
+      </ScrollView>
     </VStack>
   );
 }
