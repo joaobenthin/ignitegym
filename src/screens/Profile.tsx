@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
 import {
   Center,
   Heading,
@@ -10,6 +10,7 @@ import {
 } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { FileInfo } from 'expo-file-system';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
@@ -42,8 +43,15 @@ export function Profile() {
       const photoSelected = photoResponse.assets[0];
 
       if (photoSelected.uri) {
-        const photoInfo = await FileSystem.getInfoAsync(photoSelected.uri);
-        console.log('photoInfo', photoInfo);
+        const photoInfo = (await FileSystem.getInfoAsync(
+          photoSelected.uri,
+        )) as FileInfo;
+
+        if (photoInfo.size && photoInfo.size / 1024 / 1024 > 5) {
+          return Alert.alert(
+            'Essa imagem é muito grande. Escolha uma de até 5MB.',
+          );
+        }
 
         setUserPhoto(photoSelected.uri);
       }
