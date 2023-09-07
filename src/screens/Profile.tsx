@@ -9,6 +9,7 @@ import {
   VStack,
 } from 'native-base';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
@@ -27,19 +28,24 @@ export function Profile() {
     setPhotoIsLoading(true);
 
     try {
-      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+      const photoResponse = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         quality: 1,
         aspect: [4, 4],
         allowsEditing: true,
       });
 
-      if (photoSelected.canceled) {
+      if (photoResponse.canceled) {
         return;
       }
 
-      if (photoSelected.assets[0].uri) {
-        setUserPhoto(photoSelected.assets[0].uri);
+      const photoSelected = photoResponse.assets[0];
+
+      if (photoSelected.uri) {
+        const photoInfo = await FileSystem.getInfoAsync(photoSelected.uri);
+        console.log('photoInfo', photoInfo);
+
+        setUserPhoto(photoSelected.uri);
       }
     } catch (error) {
       console.log(error);
