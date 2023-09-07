@@ -19,6 +19,9 @@ const PHOTO_SIZE = 33;
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
+  const [userPhoto, setUserPhoto] = useState(
+    'https://github.com/joaobenthin.png',
+  );
 
   async function handleUserPhotoSelect() {
     const photoSelected = await ImagePicker.launchImageLibraryAsync({
@@ -26,14 +29,13 @@ export function Profile() {
       quality: 1,
       aspect: [4, 4],
       allowsEditing: true,
-      allowsMultipleSelection: false,
     });
-
-    console.log(photoSelected);
 
     if (photoSelected.canceled) {
       return;
     }
+
+    setUserPhoto(photoSelected.assets[0].uri);
   }
 
   return (
@@ -51,7 +53,7 @@ export function Profile() {
             />
           ) : (
             <UserPhoto
-              source={{ uri: 'https://github.com/joaobenthin.png' }}
+              source={{ uri: userPhoto }}
               alt="Foto do usuário"
               size={PHOTO_SIZE}
             />
