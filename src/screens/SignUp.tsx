@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { VStack, Image, Text, Center, Heading, ScrollView } from 'native-base';
 import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import LogoSvg from '@assets/logo.svg';
 import BackgroundImg from '@assets/background.png';
@@ -15,12 +17,21 @@ type FormDataProps = {
   password_confirm: string;
 };
 
+const signUpSchema = yup.object({
+  name: yup.string().required('Informe o nome'),
+  email: yup.string().required('Informe o e-mail').email('Email inválido'),
+  password: yup.string().required('Informe a senha'),
+  password_confirm: yup.string().required('Confirme a senha'),
+});
+
 export function SignUp() {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormDataProps>();
+  } = useForm<FormDataProps>({
+    resolver: yupResolver(signUpSchema),
+  });
 
   const navigation = useNavigation();
   function handleGoBack() {
@@ -65,9 +76,6 @@ export function SignUp() {
           <Controller
             control={control}
             name="name"
-            rules={{
-              required: 'Informe o nome.',
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="Nome"
@@ -81,13 +89,6 @@ export function SignUp() {
           <Controller
             control={control}
             name="email"
-            rules={{
-              required: 'Informe o e-mail',
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: 'E-mail inválido',
-              },
-            }}
             render={({ field: { onChange, value } }) => (
               <Input
                 placeholder="E-mail"
