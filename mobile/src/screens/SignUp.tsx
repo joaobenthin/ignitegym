@@ -12,6 +12,7 @@ import BackgroundImg from '@assets/background.png';
 
 import { Input } from '@components/Input';
 import { Button } from '@components/Button';
+import { Alert } from 'react-native';
 
 type FormDataProps = {
   name: string;
@@ -52,7 +53,7 @@ export function SignUp() {
       const response = await api.post('/users', { name, email, password });
       console.log(response.data);
     } catch (error) {
-      if (axios.isAxiosError(error)) console.log(error.response?.data.message);
+      if (axios.isAxiosError(error)) Alert.alert(error.response?.data.message);
     }
   }
 
