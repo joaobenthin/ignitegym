@@ -6,10 +6,12 @@ import {
   Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
 
-import { THEME } from './src/theme';
-
-import { Loading } from '@components/Loading';
 import { Routes } from '@routes/index';
+
+import { AuthContext } from '@contexts/AuthContext';
+
+import { THEME } from './src/theme';
+import { Loading } from '@components/Loading';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -24,7 +26,16 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthContext.Provider
+        value={{
+          id: '1',
+          name: 'João',
+          email: 'joaobenthin@email.com',
+          avatar: 'joao.png',
+        }}
+      >
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContext.Provider>
     </NativeBaseProvider>
   );
 }
